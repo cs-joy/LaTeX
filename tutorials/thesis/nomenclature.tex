@@ -1,0 +1,21 @@
+% to add to nomenclature, input:
+% \nomenclature{P*}{\varepsilon}{Efficiency}
+% *the subgroup of the nomenclature, in this instant, P for physical constant (Ctrl+F search \nomgroup)
+
+\makenomenclature
+\renewcommand\nomgroup[1]{%
+  \item[\bfseries
+  \ifstrequal{#1}{P}{\large Physical Constants}{%
+  \ifstrequal{#1}{C}{\large Chemical Symbols}{%
+  \ifstrequal{#1}{S}{\large Other Symbols}{%
+  \ifstrequal{#1}{A}{\large Abbreviations}{}}}}%
+]}
+\setlength{\nomitemsep}{-\parskip} % Baseline skip between items
+% to set double columns for nomenclature. Comment out if single column preferred. 
+\renewcommand*\nompreamble{\begin{multicols}{2}}
+\renewcommand*\nompostamble{\end{multicols}}
+
+\newcommand{\nomunit}[1]{%
+\renewcommand{\nomentryend}{\hspace*{\fill}#1}}
+
+\printnomenclature

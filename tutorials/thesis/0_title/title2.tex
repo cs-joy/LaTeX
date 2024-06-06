@@ -1,0 +1,66 @@
+\begin{titlepage}
+
+    \center % Center everything on the page
+    
+    %% All the text parameters should be taken from the start of the main.tex file.
+    %% You should only alter stuff here if you want to change the layout
+    
+    %----------------------------------------------------------------------------------------
+    %	LOGO SECTION
+    %----------------------------------------------------------------------------------------
+    %% Choose one of the following -- a colour or black-and-white logo
+    
+    \includegraphics[width = 0.9\textwidth]{0_title/Trinity_Main_Logo.jpg}\\[2.0cm] 
+    %\includegraphics[width=12cm]{title/black-stacked-trinity.jpg}\\[1cm] 
+    
+    
+    %----------------------------------------------------------------------------------------
+    %	TITLE SECTION
+    %----------------------------------------------------------------------------------------
+    \makeatletter
+    
+    { \huge \bfseries \color{tcd_blue} \@title}\\[1.0cm] % Title of your document
+     
+    
+    %----------------------------------------------------------------------------------------
+    %	AUTHOR SECTION
+    %----------------------------------------------------------------------------------------
+    
+    \ifdefined\cid
+    \@author \\ % Your name
+    \cid \\[2cm] % Your Student ID
+    \else
+    \@author \\[2cm] % Your name
+    \fi
+    
+    %----------------------------------------------------------------------------------------
+    %	Supervisor SECTION
+    %----------------------------------------------------------------------------------------
+    
+    Supervisor: \supervisor\\[1.0cm] % Their name
+    \ifdefined\cosupervisor
+    Co-supervisor: \cosupervisor\\[2cm] % Their name
+    \fi
+    
+    
+    %----------------------------------------------------------------------------------------
+    %	DATE SECTION
+    %----------------------------------------------------------------------------------------
+    
+    {\large Submitted \\ \inputdate}\\[2cm] % Date, change the \today to a set date if you want to be precise
+    
+     
+    %----------------------------------------------------------------------------------------
+    %	TYPE OF THESIS SECTION
+    %----------------------------------------------------------------------------------------
+    \vfill
+    \inputstatement
+    
+    \vfill % Fill the rest of the page with whitespace
+    
+    \large \school\\[1.5ex] % Minor heading such as course title
+    \ifdefined\department
+    \large \department\\[1.5cm] % Minor heading such as course title
+    \fi
+    
+    \end{titlepage}

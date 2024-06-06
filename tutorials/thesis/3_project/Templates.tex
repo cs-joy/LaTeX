@@ -1,0 +1,105 @@
+\chapter{Templates of \LaTeX\ groups}
+List of groups which can later be copied and pasted to keep the style while changing the content of the groups. 
+
+\section{Equations}
+Equation \ref{Emc2_symb} is the famous Einstein mass-energy equation:
+\begin{equation}\label{Emc2_symb}
+    E = mc^2,
+\end{equation}
+where $E$ is energy, $m$ is mass and $c$ represents the speed of light. This can also be written in text \textendash\ \(E = mc^2\). The terms must be explained, and equations labelled. 
+
+\section{Figures and subfigures}
+Subfigures require the package \textit{subfigure}. Figure \ref{fig:TCD} is a typical figure and Figure \ref{fig:subfig} is in a subfigure style. The captions should be elaborate and clearly describe the figure. Use \[\] in the figure captions if you wish to shorten the figure details at the list of figures. 
+
+\begin{figure}[htbp!]
+\centering
+\includegraphics[width=0.6\linewidth]{0_title/Trinity_Main_Logo.jpg}
+\caption[Trinity College Dublin logo.]{The logo of Trinity College Dublin. Image taken from the Trinity College Dublin website \cite{TCD_Logo}.}
+\label{fig:TCD}
+\end{figure}
+
+\begin{figure}[!htbp]
+        \hfill
+	\centering
+	\subfigure[Caption 1]{
+		\label{fig:subfig1}
+        \includegraphics[width=0.45\linewidth]{0_title/Trinity_Main_Logo.jpg}}
+        \hfill
+	\subfigure[Caption 2]{
+		\label{fig:subfig2}
+		\includegraphics[width=0.45\linewidth]{0_title/Trinity_Main_Logo.jpg}}
+        \hfill
+	\caption[Short caption for list of figures.]{The logo of Trinity College Dublin. Image taken from the Trinity College Dublin website \cite{TCD_Logo}.}
+	\label{fig:subfig}
+\end{figure}
+
+\section{Simple and complex tables}
+Table \ref{tab:example} is a dummy table. Table \ref{tab:multi} is a multi-row and multi-column table, which needs the package \textit{multicol}. 
+
+\begin{table}[!h]
+    \centering
+    \caption{Each row should be a different manipulated variable while each column is the corresponding results obtained.}
+    \begin{tabular}{r|c c}
+        Manipulating var. / \textit{unit} & Responding var. 1 / \textit{unit} & Responding var. 2 / \textit{unit} \\
+        \hline
+        Option 1 & Outcome 1-1 & Outcome 2-1 \\
+        Option 2 & Outcome 2-1 & Outcome 2-2 \\
+    \end{tabular}
+    \label{tab:example}
+\end{table}
+
+\begin{table}[!h]
+  \caption{A complex table with multirows and multicolumns.}
+  \centering
+    \begin{tabular}{c|c c c c}
+    \hline 
+    \multirow{2}{*}{Year} & Quantity 1 & Quantity 2 & \multicolumn{2}{c}{Quantity 3} \\
+        & (a.u.) & (m) & 3.1 (\%) & 3.2 (\%) \\ 
+    \hline 
+    2007 & $5\times5\times0.3$ & x & 10 & 90 \\
+    2008 & $5\times5\times0.3$ & y & 10 & 80 \\
+    2009 & $12\times12\times0.3$ & z & 20 & 70\\[0.8ex]
+    \hline
+    \end{tabular}
+  \label{tab:LSCConfig}
+\end{table}
+
+\begin{table}[!htbp]
+\caption{Using \textit{threeparttable} to add footnotes to a table (not recommended).}
+  \begin{center}
+  \begin{threeparttable}
+    \begin{tabular}{c c c}
+    \hline
+    Letter & Number & Description \\
+    \hline
+    A & 1 & \multirow{3}{*}{\(\ast\)} \\
+    B & 2 & \\
+    C & 3 & \\
+    D & 10 & No same pattern \\
+    \hline
+    \end{tabular}
+    \begin{tablenotes}[para,flushleft]
+    \(\ast\) This is a footnote for the table. 
+    \end{tablenotes}
+  \end{threeparttable}
+  \end{center}
+  \label{tab:dye}
+\end{table}
+
+\break
+\section{Bullet points}
+Using \textit{enumerate} for numbered points while \textit{itemize} for bullet points. The points should be written in a sentence. For example, 
+\begin{enumerate} \label{pt:num}
+    \item point 1,
+    \item point 2, 
+\end{enumerate}
+\begin{itemize} \label{pt:item}
+    \item item 1, 
+    \item item 2. 
+\end{itemize}
+If the items can be in paragraphs without using bullet points, that will be much better. 
+
+\section{Nomenclature}
+The speed of light is \textit{c}, while PV is an abbreviation for photovoltaic.
+\nomenclature[P]{\(c\)}{\href{https://physics.nist.gov/cgi-bin/cuu/Value?c}{The speed of light in vacuum}\nomunit{\SI{299792458}{\meter\per\second}}}
+\nomenclature[A]{PV}{Photovoltaic}
