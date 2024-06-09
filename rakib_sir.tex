@@ -1,0 +1,226 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{esvect}
+\usepackage {algorithm}
+\usepackage {algorithmic}
+
+\usepackage[english,greek]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{algpseudocode}
+\usepackage{algorithmicx }
+
+\newcommand{\State}{\selectlanguage{english}}
+
+\def\volumeyear{2023}
+
+\begin{document}
+
+\title{Three-tier intrusion detection system using a conditional generative adversarial network}
+
+\author{\IEEEauthorblockN{Abdullah Rakib Akand\IEEEauthorrefmark{1}, Saad Waiez Tanveer\IEEEauthorrefmark{2}, Sheikh Tonmy\IEEEauthorrefmark{3}}
+\IEEEauthorblockA{\IEEEauthorrefmark{1}Department of Information System and Security, Bangladesh University of Professionals, Dhaka, Bangladesh}
+\IEEEauthorblockA{\IEEEauthorrefmark{2}Department of Information System and Security, Bangladesh University of Professionals, Dhaka, Bangladesh}
+\IEEEauthorblockA{\IEEEauthorrefmark{3}Department of Information System and Security, Bangladesh University of Professionals, Dhaka, Bangladesh}
+\IEEEauthorblockA{Email: abdullahrakibakand@bup.edu.bd}
+}
+
+\maketitle
+
+\begin{abstract}
+Security threat protection is crucial in IoT applications since both devices and data can be compromised. We introduced a three-level intrusion detection system using a conditional generative adversarial network (3LIDS-CGAN), which includes initial, secondary, and tertiary IDS, plus attack type classification. The initial IDS classifies packet features, the secondary IDS further refines suspicious packets using signature and anomaly-based methods, and the tertiary IDS detects adversarial packets with CGAN. Experiments showed that the 3LIDS-CGAN model outperforms existing methods in performance.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Conditional generative adversarial network, Firewall, Intrusion detection system, Proximal policy optimization.
+\end{IEEEkeywords}
+
+\section{Introduction}
+In IoT environments, vast amounts of data, both sensitive and non-sensitive, are transmitted, making them vulnerable to attacks due to insufficient security and encryption. Intrusion detection systems (IDS) are essential for monitoring network traffic and detecting malicious activities. IDS can be categorized into signature-based and anomaly-based detection. Signature-based IDS (SIDS) detects known attacks, while anomaly-based IDS (AIDS) identifies unknown attacks. However, traditional IDS often struggle with accurately detecting adversarial intrusions that resemble normal traffic.
+
+To address these challenges, hybrid IDS models combining both SIDS and AIDS have been developed. This paper proposes a three-level IDS using a conditional generative adversarial network (3LIDS-CGAN) to enhance detection accuracy and reduce latency. The model includes initial, secondary, and tertiary IDS stages. In the initial IDS, the firewall extracts packet features and classifies them using a support vector machine (SVM) and golden eagle optimization. Suspicious packets proceed to the secondary IDS for further analysis using signature and anomaly-based methods. The secondary IDS refines the classification, using attack history for signature-based detection and event-based semantic mapping for anomaly-based detection.
+
+The tertiary IDS employs CGAN to detect adversarial packets by learning the adversarial environment, ensuring precise detection. This IDS also integrates proximal policy optimization to classify attack types accurately. Several types of attacks, such as DDoS, phishing, and SQL injection, are mitigated by the proposed IDS. The IDS reduces network complexity by filtering packets and decreasing data dimensionality. Experiments conducted using the NS-3.26 network simulator show that the 3LIDS-CGAN model outperforms existing methods in detecting various attacks.
+
+The proposed IDS offers a robust solution for securing IoT environments, demonstrating superior performance across multiple metrics. The paper concludes with a discussion on future work to further enhance IDS capabilities.
+
+
+\section{Related Works}
+Intrusion detection with hybrid sampling using deep hierarchical network was proposed in \cite{29}, aiming to balance network traffic data through a hybrid method incorporating OSS and SMOTE algorithms. Data preprocessing involves deep hierarchical network usage, followed by classification using hierarchical network comprising CNN and Belts. Evaluation of the proposed system is conducted using NSL-KDD and UNSW-NB15 datasets.  
+
+A lightweight intrusion detection system for IoT environment was proposed, consisting of training and evaluation sections with feature extraction and SVM classification \cite{30}. Hybrid neural network-based anomaly detection, proposed in \cite{31}, encompasses five phases including flow mapping, sequence packet features extraction, and environmental features extraction. 
+
+An ensemble-based intrusion detection system for IoT environment integrates signatures-based and anomaly-based intrusion detection using C5 and one-class SVM \cite{32}. A hybrid intrusion detection method using PCA-GWO and DNN tailored for IoT environments involves preprocessing with one-hot encoding and normalization to reduce dataset dimensionality \cite{33}. 
+
+Ensemble-based modified adaptive boosting algorithm by Atefi et al. \cite{34} targets imbalance in network intrusion detection, introducing M-Adaboost-A-SMV and M-Adaboost-A-PSO. Wireless intrusion detection employing improved convolution neural network (ICNN) features preprocessing, training, and classification \cite{35}. Intrusion detection using improved genetic algorithm (GA) and Deep Belief Network (DBN) for IoT environments aims at optimal solution detection and network attack classification \cite{36}. 
+
+Optimization-based hybrid IDS by Rose et al. \cite{37} combines BGWO with statistical algorithms like naïve Bayes for optimal IoT network intrusion detection. A novel intrusion detection technique combines multi-objective genetic algorithm (NSGA-II) and artificial neural network (ANN) with a decision tree-based random forest classifier for effective anomaly detection \cite{38}.  Mapping activity of log data using heuristic miner algorithm and subsequent enhancement phase for placement model acquisition \cite{39}.  
+
+Kumar and Harikiran \cite{40} propose a privacy preservation approach using a prediction algorithm within a deep neural network to anonymize video content and recognize privacy-preserved actions. Anomaly detection for vibration data in city trains utilizing generative adversarial network with spectral density evaluation and training via long short-term memory algorithm by Kim et al. \cite{41}.
+
+\section{3Lids-cgan model}
+Our proposed system focuses to detect both signature and anomaly-based intrusions in an IoT
+environment. It has four consecutive phases such as: i) first level IDS, ii) second level IDS, iii) third level
+IDS, and iv) attack type classification. The real-time packets entering the IDS model contain several existing
+and new attacks which are identified with improved accuracy. The first phase classifies incoming packets
+into three classes namely normal, suspicious, and malicious from which the malicious packets are dropped
+and suspicious packets are sent to the second phase in which the signature-based and anomaly-based IDS
+takes place which results in classification of those packets into normal and malicious from which the
+malicious packets are dropped. The normal packets from first and second phases are processed in the third
+phase to detect the adversaries to improve the security of the IoT environment.
+
+\section{First Tier IDS(Intrusion Detection System)}
+In first level IDS, first process is packet flow-based feature extraction. The packet features are extracted by using firewall which filters the incoming packets with the features of packet interval time, packet size, packet type, payload length, and timestamp. The extracted features are classified by using SVM and golden eagle optimization which is used to select the kernel function of the SVM like linear, polynomial, radial basis function (RBF), and sigmoid which has four parameters such as cost, gamma, coefficient, and degree. Intrusions are detected based on the extracted features from the firewall. The SVM is already with the normal patterns. Every new packet is matched to the normal patterns if it varies from the threshold then it is marked as intrusion or attack. In this research, we used multiclass SVM for classification. In SVM hyperplane is used to classify the features into three classes, that hyperplane needs to follow the rule in (1),
+\begin{equation}
+F(y) = (v, y) + a
+\end{equation}
+where $v$ represents the normal vector and $a$ represent the bias value and $y$ represents the test sample. In SVM the intrusion detection is performed by selecting optimal kernel for that we proposed golden eagle optimization which selects the optimal kernel from the four kernels (linear, RBF, sigmoid, and polynomial) of SVM. The classification function of SVM is defined as (2).
+\begin{equation}
+F(y) =
+\begin{cases} 
+-1, & \text{if } y \in \text{malicious} \\ 
+0, & \text{if } y \in \text{suspicious} \\ 
+1, & \text{if } y \in \text{normal} 
+\end{cases}
+\end{equation}
+In next stage of SVM, assume $y_2, y_2, \ldots, y_n$ be a training sample. And then, separate the data from the origin for that we need to solve the quadratic programming problems.
+\begin{equation}
+\min \frac{1}{2} \|W\|^2 + \frac{1}{v n} \sum_{i=1}^{n} E_i - P_n
+\end{equation}
+\begin{equation}
+W \times \varphi(y_i)) \ge \sigma - Eii = 1, 2, ... . , Ei \ge 0
+\end{equation}
+If W and $\sigma$ solve the quadratic programming problem, then the decision function will be normal for
+maximum instances in the training set.
+\begin{equation}
+F(y) = Sign(  \,( W \times \varphi(y_i)) - \sigma)  \,
+\end{equation}
+This research used RBF kernel function which is selected by golden eagle optimization which
+optimizes the parameters of c and $\gamma$. Every kernel has specific parameters that can be enhanced to get the best
+performance result which is illustrated in Table 1. SVM identifies the behavior of the normal packets using
+extracted features. It proposed that SVM classifies the current packets into normal, malicious, or suspicious.
+
+\begin{table}[h!]
+\centering
+\caption{Types of kernel functions and their parameters}
+\label{table:1}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Function of Kernel} & \textbf{Equation} & \textbf{Parameter} \\
+\hline
+RBF & $k(y_n, y_i) = exp( -\gamma\| y_n - y_i \|^2+c)$ &$c$ $and$ $\gamma$ \\
+\hline
+Linear &$k(y_n, y_i) = ( y_n - y_i)$ & $c$ $and$ $\gamma$ \\
+\hline
+Polynomial & $k(y_n, y_i) = (\gamma( m (y_n - y_i) + s)^b$ &$ c, \gamma$, $s$ $and$ $b$\\
+\hline
+Sigmoid & $k(y_n, y_i) = tanh(\gamma((y_n, y_i) + s)$ &$ c, \gamma$   $and$ $ s$\\
+\hline
+\end{tabular}
+\end{table}
+Where $c$ represents cost and $\gamma$ denotes gamma and $s$ represents coefficient and $b$ represents degree. For
+getting the optimal value from the kernel, the search method is performed using the parameters $ c, \gamma$, $s$ $and$ $b$.
+
+The first process of golden eagle optimization is defined as follows. The attack is modeled through a
+vector beginning from the current position of the golden eagle; the attack vector is calculated as (6):
+
+\begin{equation}
+\overrightarrow{a_i} = \overrightarrow{y_f}^* - \overrightarrow{y_i}
+\end{equation}
+Where, $\overrightarrow{a_i}$ is represent the eagle $i$ attack vector and $\overrightarrow{y_f}^*$ represent the best location visited by eagle $f$, and $\overrightarrow{y_i}$ represent the current location of the eagle $i$. Next process is to calculate the cruise vector concerning attack vector. Cruise vector is a tangent vector to the circular and that is positioned perpendicular to the attack vector. The tangent hyperplane is calculated as (7),
+
+\begin{equation}
+H_1y_1 + ... H_ny_n = D \rightarrow \sum^{n}_{j=1} H_jy_j = D
+\end{equation}
+Where, $\overrightarrow{h}$ = $[H_1, ... H_n]$ represent the normal vector and Y = $[y_1, … y_n]$ represent the variable vector,
+D = $\overrightarrow{h}$. S . S represent the arbitrary point. Therefore, the hyperplane is represented as (8),
+\begin{equation}
+\sum^{n}_{j=1} A_jy_j = \sum^{n}_{j=1} A^t_jy^*_j
+\end{equation}
+Where, $\overrightarrow{a_i}$= $[A_1, ... . . , A_n]$ represent the attack vector and $Y^* = [y^*_1, ..., y^*_n]$ is represent the location. The new position of the eagle is defined as (9),
+\begin{equation}
+\triangle y_i  = \overrightarrow{R_1}P_A \frac{\overrightarrow{a_i}}{\|\overrightarrow{a_i}\|} + \overrightarrow{R_2}P_b \frac{\overrightarrow{B_i}}{\|\overrightarrow{B_i}\|}
+\end{equation}
+where, $P^t_A$ is represent the attack coefficient at iteration $t$ and $P_b$ represent the cruise coefficient and  $\overrightarrow{R_1}$ and $\overrightarrow{R_2}$ represent the random vectors between the interval of [0,1]. And $\|\overrightarrow{A_i}\|$ and$\|\overrightarrow{b_i}\|$ represent Euclidean norm
+of attack that is defined as (10).
+\begin{equation}
+\|\overrightarrow{A_i}\| = \sqrt{ \sum^{n}_{j=1} A^2_j }  and  \|\overrightarrow{b_i}\| = \sqrt{ \sum^{n}_{j=1} b^2_j }
+\end{equation}
+
+The position of the eagle is calculated as (11).
+
+\begin{equation}
+y^t+1 = y^t + \triangle y^t_i
+\end{equation}
+
+The fitness of new position of eagle $i$ is better than the current position; hence the new position is updated.
+In this algorithm, $P_A, P_b$ is used to shift from exploration to exploitation. Initially, this algorithm
+starts with minimum $P_A$ and maximum $P_b$. Starting and finishing parameters are determined by the user and
+intermediate values are calculated using the linear function, which is defined as (12),
+
+\begin{equation}
+\begin{cases}
+	P_A  = P^0_A + \frac{t}{T}|P^T_A - P^0_A | \\
+	P_b  = P^0_b + \frac{t}{T}|P^T_b - P^0_b  |
+\end{cases}
+\end{equation}
+
+where $t$ represents the current iteration and $T$ represents maximum iteration and $P^0_b$ and $P^T_b$ represent the
+initial and final values of attack $(P_b)$ and $P^0_A$ and $P^T_A$ represent the initial and final values of attack $(P_A)$.
+Finally, the best kernel function is selected using this algorithm. In our work, RBF is selected as the best
+kernel for classification. Our proposed system performs accurate classification which improves the accuracy
+of the process. The firewall ignores the malicious packets and forwards suspicious packets into next-level
+IDS. The pseudo-code for first-level IDS is provided below in which the selection of kernel is described
+above in an elaborative manner.
+
+Pseudocode for support vector machine (SVM) with golden eagle optimization
+
+\begin{algorithm}[H]
+\caption{Support Vector Machine (SVM) with Golden Eagle Optimization}
+\label{alg:svm-geo}
+\begin{algorithmic}[1]
+\State \textbf{INPUT:} Extracted features $F = \{f_1, f_2, \ldots, f_n\}$, kernel parameters $c, s, b, \gamma$
+\State \textbf{OUTPUT:} Kernel selection
+\State Initialize $P_A$ and $P_b$
+\State Initialize $c, s, b$ and $\gamma$
+\State Form SVM by training dataset and initialized position of each attack
+\State Evaluate the fitness function
+\For{each iteration $t$}
+    \State Update $P_A$ and $P_b$ using (12)
+    \For{each eagle $i$}
+        \State Select random prey from the memory of populations
+        \State Compute attack vector $\vec{a_i}$ using (6)
+        \If{$\vec{a_i} \neq 0$}
+            \State Compute cruise vector using (7) and (8)
+            \State Compute step vector using (9) and (10)
+            \State Position is updated using (11)
+            \State Calculate fitness value for new position
+            \If{new position is better than current position}
+                \State replace new position as the best position (fitness)
+            \EndIf
+        \EndIf
+    \EndFor
+\EndFor
+\State // (after selecting optimal kernel)
+\State Compute classification for every $f_i$ using kernel
+\end{algorithmic}
+\end{algorithm}
+
+
+
+
+
+
+
+
+%$\jmath\Im\Re\infty$
+
+
+\end{document}
+
+
