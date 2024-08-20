@@ -1,0 +1,97 @@
+\documentclass[10pt]{article}
+\usepackage{amsmath}
+\begin{document}
+
+\title{Mathematical Equation}
+
+
+\section*{Predicted Probability}
+   The logistic regression model predicts the probability \( \hat{p}_i \) that the target \( y_i = 1 \) given the features \( \mathbf{x}_i \).
+
+   \[
+   \hat{p}_i = \frac{1}{1 + e^{-(\beta_0 + \mathbf{x}_i^\top \boldsymbol{\beta})}}
+   \]
+
+   - \( \beta_0 \) is the intercept (bias term).
+   - \( \mathbf{x}_i \) is the feature vector for the \(i\)-th observation.
+   - \( \boldsymbol{\beta} \) is the vector of coefficients.
+
+\section*{Weight Matrix \( W \)}
+   The weight matrix \( W \) is a diagonal matrix where each diagonal element \( W_{ii} \) represents the variance of the predicted probability for the \(i\)-th observation:
+
+   \[
+   W_{ii} = \hat{p}_i (1 - \hat{p}_i)
+   \]
+
+   Where:
+   - \( \hat{p}_i \) is the predicted probability for the \(i\)-th observation.
+
+\section*{Design Matrix \( X \)}
+   The design matrix \( X \) includes the features and the intercept. If \( X \) originally contains only the features, we add a column of ones to account for the intercept:
+
+   \[
+   X = \begin{bmatrix}
+   1 & x_{11} & x_{12} & \dots & x_{1p} \\
+   1 & x_{21} & x_{22} & \dots & x_{2p} \\
+   \vdots & \vdots & \vdots & \ddots & \vdots \\
+   1 & x_{n1} & x_{n2} & \dots & x_{np}
+   \end{bmatrix}
+   \]
+
+   - \( x_{ij} \) is the value of the \(j\)-th feature for the \(i\)-th observation.
+   - \( p \) is the number of features.
+   - \( n \) is the number of observations.
+
+\section*{Hessian Approximation (Covariance Matrix \( \Sigma \))}
+   The covariance matrix \( \Sigma \) is calculated using the Hessian approximation. It is the inverse of the product of the transposed design matrix, the weight matrix, and the design matrix:
+
+   \[
+   \Sigma = (X^\top W X)^{-1}
+   \]
+
+   Where:
+   - \( X^\top \) is the transpose of the design matrix \( X \).
+   - \( W \) is the weight matrix.
+
+\section*{Standard Errors}
+   The standard error of each coefficient \( \hat{\beta}_j \) is the square root of the corresponding diagonal element of the covariance matrix \( \Sigma \):
+
+   \[
+   \text{SE}(\hat{\beta}_j) = \sqrt{\Sigma_{jj}}
+   \]
+
+   Where:
+   - \( \Sigma_{jj} \) is the \( j \)-th diagonal element of the covariance matrix \( \Sigma \).
+
+\section*{z-scores}
+   The z-score for each coefficient \( \hat{\beta}_j \) is calculated by dividing the coefficient by its standard error:
+
+   \[
+   z_j = \frac{\hat{\beta}_j}{\text{SE}(\hat{\beta}_j)}
+   \]
+
+   Where:
+   - \( \hat{\beta}_j \) is the estimated coefficient.
+   - \( \text{SE}(\hat{\beta}_j) \) is the standard error of \( \hat{\beta}_j \).
+
+7. **p-values:**
+   The p-value for each coefficient is calculated from the z-score using the cumulative distribution function (CDF) of the standard normal distribution:
+
+   \[
+   p_j = 2 \cdot \left(1 - \Phi\left(\left|z_j\right|\right)\right)
+   \]
+
+   Where:
+   - \( \Phi(\left|z_j\right|) \) is the CDF of the standard normal distribution evaluated at \( \left|z_j\right| \).
+
+\section*{Summary of the Equations}
+\begin{itemize}
+  \item Predicted Probability: \( \hat{p}_i = \frac{1}{1 + e^{-(\beta_0 + \mathbf{x}_i^\top \boldsymbol{\beta})}} \)
+  \item Weight Matrix: \( W_{ii} = \hat{p}_i (1 - \hat{p}_i) \)
+  \item Covariance Matrix: \( \Sigma = (X^\top W X)^{-1} \)
+  \item Standard Error: \( \text{SE}(\hat{\beta}_j) = \sqrt{\Sigma_{jj}} \)
+  \item z-score: \( z_j = \frac{\hat{\beta}_j}{\text{SE}(\hat{\beta}_j)} \)
+  \item p-value: \( p_j = 2 \cdot \left(1 - \Phi\left(\left|z_j\right|\right)\right) \)
+\end{itemize}
+
+\end{document}
